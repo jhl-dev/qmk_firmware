@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* tap count needed for toggling a feature */
 #ifndef TAPPING_TOGGLE
-#    define TAPPING_TOGGLE 5
+#    define TAPPING_TOGGLE 2
 #endif
 
 #define WAITING_BUFFER_SIZE 8

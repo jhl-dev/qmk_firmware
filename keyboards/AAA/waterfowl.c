@@ -14,7 +14,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "quantum.h"
+#include "waterfowl.h"
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_kb(uint8_t index, bool clockwise) {
@@ -23,30 +23,41 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     }
     if (index == 0) { // Left roller
         if (clockwise) {
-            tap_code16(A(KC_LEFT));
+            tap_code(KC_MS_WH_DOWN);
         } else {
-            tap_code16(A(KC_RIGHT));
+            tap_code(KC_MS_WH_UP);
         }
     } else if (index == 1) { // Left encoder
-         if (clockwise) {
-            tap_code(KC_DOWN);
+       if (clockwise) {
+            if (!is_alt_tab_active) {
+                is_alt_tab_active = true;
+                register_code(KC_LGUI);
+            }
+            alt_tab_timer = timer_read();
+            tap_code16(KC_TAB);
         } else {
-            tap_code(KC_UP);
+            if (!is_alt_tab_active) {
+                is_alt_tab_active = true;
+                register_code(KC_LGUI);
+            }
+            alt_tab_timer = timer_read();
+            tap_code16(S(KC_TAB));
         }
     } else if (index == 2) { // Right roller
         if (clockwise) {
-            tap_code16(S(KC_RIGHT));
+            tap_code16(S(KC_MS_WH_DOWN));
         } else {
-            tap_code16(S(KC_LEFT));
+            tap_code16(S(KC_MS_WH_UP));
         }
     } else if (index == 3) { // Right encoder
         if (clockwise) {
-            tap_code16(KC_MS_WH_UP);
+            tap_code(KC_RIGHT);
         } else {
-            tap_code16(KC_MS_WH_DOWN);
+            tap_code(KC_LEFT);
         }
     }
-    return false;
+
+    return true;
 }
 #endif
 
